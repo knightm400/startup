@@ -6,6 +6,7 @@ Introducing "Memory Maze"-- the ultimate challenge for your memorizing skills! I
 
 ### Design
 ![This image shows the design of my user authentication, gameplay, leaderboard, and tutorial pages](images/IMG_8452.jpg)
+![This image shows the design of my tutorial page](images/IMG_8453.jpg)
 
 ### Key features
 * Allow users to create accounts and log in
