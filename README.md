@@ -6,6 +6,7 @@ Introducing "Memory Maze"-- the ultimate challenge for your memorizing skills! I
 
 ### Design
 
+
 ### Key features
 * Allow users to create accounts and log in
 * Display the user's name after log in
@@ -23,7 +24,7 @@ I am going to use the required technologies in the following ways.
 * **HTML** - I will utilize HTML to create a structured application with separate pages for user authentication, gameplay interface, and the leaderboard. I will also utilize HTML to implement hyperlinks to navigate between different sections of the web program.
 * **CSS**  - I will use CSS to make my gameplay interface visually appealing and have a responsive design. I will use proper whitespace, color schemes, and contrast to enhance the user experience. 
 * **JavaScript** - I will employ Javascript with user authentication. I will also use it to develo pthe gameplay logic such as highlighting squares, handling user clicks, and managing progressive difficult. I will utilize backend endpoint calls for seamless interaction with the server. 
-* **Service** - I will have bakcend service with the following endpoints:
+* **Service** - I will have backend service with the following endpoints:
     * Login
     * Gameplay
     * Scores
