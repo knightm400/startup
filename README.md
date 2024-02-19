@@ -38,7 +38,7 @@ I am going to use the required technologies in the following ways.
 * **Websocket** - I will integrate WebSocket for real-time communication between users. I will also use Websocket to broadcast data on each round (sequence of flashing squares).
 * **React** - I will port the application to use the React web framework for enhanced modularity and maintainability. I will also leverage React components for the login page, gameplay interface leaderboard, and tutorial.
 
-### HTML deliverable
+## HTML deliverable
 For this deliverable I built out the structure of my application using HTML.
 * **HTML pages** - I have four HTML pages that are necessary for my website application.
     * **index.html** - This is the home page where players can enter the name to participate in the game.
@@ -48,5 +48,9 @@ For this deliverable I built out the structure of my application using HTML.
 * **HTML tags** - I used HTML tags such as BODY, NAV, MAIN, HEADER, and FOOTER to properly format my HTML structure for this website application.
 * **Links** - The login page automatically links to the gameplay page when users input their name. The gameplay, leaderboard, and tutorial pages include links to ever other page (including the login page).
 * **Text** - Appropriate text is used on each page such as instructions for how to play the game and descriptive phrases to help the user.
-* **
+* **3rd Party Service Calls** - My leaderboard will in the future use third-party service calls to manage and retrieve scores from different players globally.
+* **Images** - I have used application images for the logo of my game. This is displayed in the browser tab. 
+* **Login** - I have a box in my home tab where a user will input their name to start playing. Their user name will be displayed at the top of the page in gameplay.html.
+* **Database** - The leaderboard will later be populated with actual player scores and names retrieved from my database. The user name displayed in gameplay.html will also be using database data.
+* **WebSocket** - This is generated from realtime data from my service. This is updated every time another user creates or ends a game.
 
