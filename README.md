@@ -2,7 +2,7 @@
 
 ## Specification Deliverable
 ### Elevator Pitch
-Introducing "Memory Maze"-- the ultimate challenge for your memorizing skills! Immerse yourself in a simple game, where a 5x5 grid flashes individual squares in a certain pattern. The way to win is to click the squares in the correct order. Sounds easy right? But hold on, each round amps up the challenge. With each successful round, the challenge increases difficulty as more squares join the memory dance. How far can you go before the grid outsmarts you? Sharpen your instincts and give your brain a good workout by challenging yourself to Memory Maze!
+Introducing "Memory Maze"-- the ultimate challenge for your memorizing skills! Immerse yourself in a simple game, where a 5x5 grid flashes individual squares in a certain pattern. The way to win is to click the squares in the correct order and exit the maze. Sounds easy right? But hold on, each round amps up the challenge. With each successful round, the challenge increases difficulty as more squares join the memory dance. How far can you go before the grid outsmarts you? Sharpen your instincts and give your brain a good workout by challenging yourself to Memory Maze!
 
 ### Design
 ![This image shows the design of my user authentication, gameplay, leaderboard, and tutorial pages](images/IMG_8452.jpg)
@@ -13,8 +13,11 @@ Introducing "Memory Maze"-- the ultimate challenge for your memorizing skills! I
 * Display the user's name after log in
 * Display of 5x5 grid
 * Display of current round number to indicate difficulty level
-* Ability to select any squares in 5x5 grid
+* Display of "lives" showing how many tries the user has left to successfully pass a level
+* Ability to select any squares in 5x5 grid starting with the top left square and ending with the bottom right square
 * Highlight square(s) in different colors and in a sequential order for the user to click
+* Ability for the user to show the sequence a second time
+* Ability for the user to restart the game
 * Scores from all users displayed in realtime
 * Store user profiles, including high scores
 * Results are persistently stored
