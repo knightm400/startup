@@ -38,3 +38,15 @@ I am going to use the required technologies in the following ways.
 * **Websocket** - I will integrate WebSocket for real-time communication between users. I will also use Websocket to broadcast data on each round (sequence of flashing squares).
 * **React** - I will port the application to use the React web framework for enhanced modularity and maintainability. I will also leverage React components for the login page, gameplay interface leaderboard, and tutorial.
 
+### HTML deliverable
+For this deliverable I built out the structure of my application using HTML.
+* **HTML pages** - I have four HTML pages that are necessary for my website application.
+    * **index.html** - This is the home page where players can enter the name to participate in the game.
+    * **gameplay.html** - This page is where the player can interact with a 5x5 maze grid to play the game.
+    * **leaderboard.html** - This page shows the top scores of players that have played the game.
+    * **tutorial.html** - This page explains how players play the game.
+* **HTML tags** - I used HTML tags such as BODY, NAV, MAIN, HEADER, and FOOTER to properly format my HTML structure for this website application.
+* **Links** - The login page automatically links to the gameplay page when users input their name. The gameplay, leaderboard, and tutorial pages include links to ever other page (including the login page).
+* **Text** - Appropriate text is used on each page such as instructions for how to play the game and descriptive phrases to help the user.
+* **
+
