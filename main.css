@@ -13,8 +13,20 @@ body {
     padding-top: 30vh;
 }
 
+menu {
+    flex:1;
+    display: flex;
+    flex-direction:row !important;
+    list-style: none;
+}
+
 .navbar {
     border-bottom: 2px solid #555
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
 }
 
 .nav-link {
