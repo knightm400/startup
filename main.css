@@ -6,7 +6,6 @@ body, html {
 body {
     display: flex;
     flex-direction: column;
-    /* min-width: 375px; */
     justify-content: flex-start;
     align-items: center;
     text-align: center;
@@ -35,7 +34,7 @@ menu {
     color: #fff;
 }
 
-.nav-link:hover, .nav-link:focus {
+.navbar .nav-link:hover {
     color: #ADD8E6;
     text-decoration: none;
 }
