@@ -12,6 +12,12 @@ body {
     padding-top: 30vh;
 }
 
+@media (max-width: 768px) {
+    body {
+        padding-top: 15vh;
+    }
+}
+
 menu {
     flex:1;
     display: flex;
@@ -48,6 +54,12 @@ menu {
     font-size: 60px;
 }
 
+@media (max-width: 768px) {
+    .header-title {
+        font-size: 30px;
+    }
+}
+
 .title-color {
     color: #ADD8E6
 }
@@ -63,6 +75,7 @@ menu {
 }
 
 .submit-btn {
+    color: #000000;
     border-radius: 8px;
     padding:6px;
     background-color: #D4FF9D
