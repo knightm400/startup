@@ -1,14 +1,15 @@
 body {
-    padding-top: 0;
-}
-
-.navbar{
-    margin-bottom: 0;
+    padding-top: 7vh;
 }
 
 .header-title {
-    margin-top: 80px;
-    text-align: left;
-    margin-bottom: 20px;
-    padding-left: 20px;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0;
+    font-size: 30px;
+    text-align: center;
+    width: auto;
 }
+
