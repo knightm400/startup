@@ -17,8 +17,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 60%;
+    margin: 0 auto;
     padding-top: 8vh;
+    padding-bottom: 2vh;
     font-size: 20px;
 }
 
