@@ -1,0 +1,14 @@
+body {
+    padding-top: 0;
+}
+
+.navbar{
+    margin-bottom: 0;
+}
+
+.header-title {
+    margin-top: 80px;
+    text-align: left;
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
