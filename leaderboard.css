@@ -6,21 +6,31 @@ body {
 
 table {
     width: 100%;
+    max-width: 1200px;
     margin: 20px auto;
     border-collapse: collapse;
     background-color: transparent;
 }
 
-table tbody td {
-    padding: 10px;
+table th, table td {
+    padding: 20px;
+    font-size: 18px;
     border: 1px solid #ffffff;
     text-align: center;
 }
+
+table thead th {
+    background-color: #ADD8E6;
+    color: #343a40;
+    padding: 20px;
+}
+
+
 
 table tbody tr:nth-child(odd) {
     background-color: #394650;
 }
 
 table tbody tr:hover {
-    background-color: #465a71;
+    background-color: #B0C4DE;
 }
