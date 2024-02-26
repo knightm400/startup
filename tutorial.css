@@ -1,0 +1,18 @@
+body {
+    background-image: url('mazeDesign.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    padding-top: 100px
+}
+
+.how-to-play {
+    color: white;
+    font-size: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px;
+    background-color: rgba(0,0,0,0.5);
+    text-align: center;
+}
