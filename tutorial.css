@@ -4,7 +4,10 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     color: white;
-    padding-top: 100px
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .how-to-play {
