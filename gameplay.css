@@ -4,7 +4,7 @@ body {
 
 .header-title {
     position: absolute;
-    top: 100px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 0;
@@ -19,7 +19,7 @@ body {
     align-items: center;
     width: 60%;
     margin: 0 auto;
-    padding-top: 8vh;
+    padding-top: 6vh;
     padding-bottom: 2vh;
     font-size: 20px;
 }
