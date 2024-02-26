@@ -39,6 +39,11 @@ menu {
     text-decoration: none;
 }
 
+.nav-link.active, .nav-link.active:hover {
+    color: #FFF;
+    text-decoration: none;
+}
+
 .header-title {
     font-size: 60px;
 }

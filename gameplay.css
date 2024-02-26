@@ -22,6 +22,11 @@ body {
     color: #CBAACB;
 }
 
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
 table button {
     background-color: #D3D3D3;
     color: black;
@@ -39,5 +44,23 @@ table button {
 }
 
 table button:hover {
-    background-color: #BEBEBE
+    background-color: #707070
+}
+
+.level {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    color: #fff;
+}
+
+.level input {
+    background-color: transparent;
+    color: #ADD8E6;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    width: 60px;
+    text-align: center;
 }
