@@ -13,3 +13,11 @@ body {
     width: auto;
 }
 
+.players {
+    padding-top: 8vh;
+    font-size: 20px;
+}
+
+.player-color {
+    color: #CBAACB;
+}
