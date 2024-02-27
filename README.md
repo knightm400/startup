@@ -13,7 +13,6 @@ Introducing "Memory Maze"-- the ultimate challenge for your memorizing skills! I
 * Display the user's name after log in
 * Display of 5x5 grid
 * Display of current round number to indicate difficulty level
-* Display of "lives" showing how many tries the user has left to successfully pass a level
 * Ability to select any squares in 5x5 grid starting with the top left square and ending with the bottom right square
 * Highlight square(s) in different colors and in a sequential order for the user to click
 * Ability for the user to show the sequence a second time
@@ -59,5 +58,7 @@ For this deliverable, I properly styled the application into its final appearanc
 * **Header, footer, and main content body.**
 * **Navigation elements** - I formated the navigation bar so that it fits the theme nicely. I have links to my different pages with the current page highlighted in bright white. When you hover over a link, it will turn a light blue that fits the theme of the website. I also have a link to my GitHub repositor page at the top left of the page.
 * **Responsive to window resizing** - I formatted my website so that it'll look good with window resizing as well as when it is opened on a phone device. 
-
+* **Application elements** - I have many application elements such as the game buttons, leaderboard, and login field. My 5x5 grid is also an example of an application element. 
+* **Application text content** - My navigation links, instructions on how to play, and login instructions are all examples of how I have used application text content.
+* **Application images** - I have included a maze background in my How To Play page.
 
