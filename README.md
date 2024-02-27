@@ -58,5 +58,6 @@ For this deliverable I built out the structure of my application using HTML.
 For this deliverable, I properly styled the application into its final appearance. 
 * **Header, footer, and main content body.**
 * **Navigation elements** - I formated the navigation bar so that it fits the theme nicely. I have links to my different pages with the current page highlighted in bright white. When you hover over a link, it will turn a light blue that fits the theme of the website. I also have a link to my GitHub repositor page at the top left of the page.
-* **Responsive to window resizing
+* **Responsive to window resizing** - I formatted my website so that it'll look good with window resizing as well as when it is opened on a phone device. 
+
 

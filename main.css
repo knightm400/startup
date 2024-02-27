@@ -83,11 +83,18 @@ menu {
     menu {
         flex-direction: column; 
         align-items: center;
-        padding: 10px 0;
+        padding: 0;
+        margin: 0;
     }
 
     .navbar-nav {
         flex-direction: column; 
+    }
+
+    .nav-link {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 5px0;
     }
 
     .header-title {

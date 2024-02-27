@@ -94,18 +94,45 @@ table button:hover {
     border-color: #D4FF9D;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
+    .header-title {
+        display: none;
+    }
+
     .main-info {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        padding-top: 2vh;
-        padding-bottom: 1vh;
-        font-size: 18px;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 90%;
+        font-size: 14px;
+    }
+
+    table {
+        width: auto;
+        max-width: 100%;
+    }
+
+    table button {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+    }
+    
+    .level {
+        font-size: 14px;
     }
 
     .level input {
-        width: 30%;
-        font-size: 18px;
+        width: 45px;
+        font-size: 14px;
+    }
+
+    .game-buttons {
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .game-buttons button {
+        padding: 6px 10px;
+        font-size: 14px;
     }
 }
