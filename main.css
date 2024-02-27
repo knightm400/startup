@@ -12,12 +12,6 @@ body {
     padding-top: 30vh;
 }
 
-@media (max-width: 768px) {
-    body {
-        padding-top: 20vh;
-    }
-}
-
 menu {
     flex:1;
     display: flex;
@@ -54,12 +48,6 @@ menu {
     font-size: 60px;
 }
 
-@media (max-width: 768px) {
-    .header-title {
-        font-size: 30px;
-    }
-}
-
 .title-color {
     color: #ADD8E6
 }
@@ -88,3 +76,25 @@ menu {
     padding: 10px;
 }
 
+@media (max-width: 600px) {
+    body {
+        padding-top: 15vh;
+    }
+    menu {
+        flex-direction: column; 
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .navbar-nav {
+        flex-direction: column; 
+    }
+
+    .header-title {
+        font-size: 40px; 
+    }
+
+    .intro-text {
+        font-size: 20px; 
+    }
+}

@@ -93,3 +93,19 @@ table button:hover {
     background-color: #D4FF9D;
     border-color: #D4FF9D;
 }
+
+@media screen and (max-width: 768px) {
+    .main-info {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        padding-top: 2vh;
+        padding-bottom: 1vh;
+        font-size: 18px;
+    }
+
+    .level input {
+        width: 30%;
+        font-size: 18px;
+    }
+}
