@@ -78,7 +78,7 @@ menu {
 
 @media (max-width: 600px) {
     body {
-        padding-top: 15vh;
+        padding-top: 30vh;
     }
     menu {
         flex-direction: column; 
