@@ -52,14 +52,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const showAgainBtn = document.querySelector('.game-buttons button:nth-child(2)');
     const startGameBtn = document.querySelector('.game-buttons button:nth-child(1)');
 
+    showAgainBtn.disabled = true;
+
+    let hasSequenceBeenShown = false;
+
     startGameBtn.addEventListener('click', () => {
         playSequence();
+        hasSequenceBeenShown = true;
         showAgainBtn.disabled = false;
     });
 
     showAgainBtn.addEventListener('click', () => {
-        playSequence();
-        showAgainBtn.disabled = true;
+        if (hasSequenceBeenShown) {
+            playSequence();
+            showAgainBtn.disabled = true;
+        }
     });
 
     document.querySelectorAll('td button').forEach((button, index) => {
