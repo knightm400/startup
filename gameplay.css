@@ -94,6 +94,13 @@ table button:hover {
     border-color: #D4FF9D;
 }
 
+.game-buttons button:disabled {
+    background-color: #A9A9A9;
+    color: #7F7F7F;
+    cursor: not-allowed;
+    border-color: #7F7F7F;
+}
+
 @media screen and (max-width: 600px) {
     .header-title {
         display: none;

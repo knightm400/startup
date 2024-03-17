@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 const sequenceLength = 5;
 const neonGreen = '#39FF14';
-const pastelColors = {'pink': '#da74dcff','orange': '#f09c4aff','yellow': '#f7e460ff','blue': '#60b8f7ff','purple': '#ae60f7ff','red': '#FF5C5C'};
+const pastelColors = {'pink': '#da74dcff','orange': '#f09c4aff','yellow': '#f7e460ff','blue': '#60b8f7ff','purple': '#ae60f7ff'};
 const colors = Object.keys(pastelColors);
 const sequence = ['green'];
 const sequenceIds = ['button-0', 'button-6', 'button-12', 'button-18', 'button-24'];
@@ -46,10 +46,22 @@ async function playSequence() {
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    const startGameBtn = document.querySelector('.game-buttons button');
+    const playerName = localStorage.getItem('playerName') || 'Mystery Player';
+    document.querySelector('.player-name').textContent = playerName;
+
+    const showAgainBtn = document.querySelector('.game-buttons button:nth-child(2)');
+    const startGameBtn = document.querySelector('.game-buttons button:nth-child(1)');
+
     startGameBtn.addEventListener('click', () => {
         playSequence();
+        showAgainBtn.disabled = false;
     });
+
+    showAgainBtn.addEventListener('click', () => {
+        playSequence();
+        showAgainBtn.disabled = true;
+    });
+
     document.querySelectorAll('td button').forEach((button, index) => {
         button.id = `button-${index}`;
     });
