@@ -21,11 +21,10 @@ while (sequence.length < sequenceLength) {
 
 function flashButton(buttonId, color, duration = 1000) {
     const button = document.querySelector(`#${buttonId}`);
-    const originalColor = button.style.backgroundColor;
     button.style.backgroundColor = color;
     return new Promise(resolve => {
         setTimeout(() => {
-            button.style.backgroundColor = originalColor;
+            button.style.backgroundColor = '';
             resolve();
         }, duration);
     });
@@ -72,6 +71,71 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.querySelectorAll('td button').forEach((button, index) => {
         button.id = `button-${index}`;
     });
+
+
+    let playerSequence = [];
+    let gameActive = false;
+
+    function playerTurn() {
+        gameActive = true; 
+        playerSequence = []; 
+    }
+
+    function checkPlayerSequence() {
+        if (playerSequence.length === sequenceIds.length) {
+            alert('Congratulations! You completed the sequence! Leveling up...');
+            resetGame();
+        }
+    }
+
+    async function flashPlayerSelection(buttonId) {
+        const index = sequenceIds.indexOf(buttonId);
+        if (index === -1 || !gameActive) return; 
+
+        let flashColor;
+        if (index === 0) {
+            flashColor = neonGreen;
+        } else if (index === sequenceIds.length - 1) {
+            flashColor = 'red';
+        } else {
+            const colorKey = sequence[index];
+            flashColor = pastelColors[colorKey];
+        }
+
+        await flashButton(buttonId, flashColor);
+
+        playerSequence.push(buttonId);
+        checkPlayerSequence();
+    }
+
+    document.querySelectorAll('td button').forEach(button => {
+        button.addEventListener('click', () => {
+            flashPlayerSelection(button.id);
+        });
+    });
+
+    function resetGame() {
+        gameActive = false;
+        playerSequence = [];
+        showAgainBtn.disabled = true;
+        startGameBtn.disabled = false;
+    }
+
+    const resetBtn = document.createElement('button');
+    resetBtn.textContent = 'Reset Game';
+    resetBtn.addEventListener('click', resetGame);
+    document.querySelector('main').appendChild(resetBtn);
+
+    startGameBtn.addEventListener('click', async () => {
+        await playSequence();
+        playerTurn(); 
+        startGameBtn.disabled = true; 
+        showAgainBtn.disabled = false;
+    });
+
+    showAgainBtn.addEventListener('click', async () => {
+        await playSequence();
+        playerTurn();
+    });
+
 });
-
-
