@@ -10,6 +10,7 @@ const colors = Object.keys(pastelColors);
 const sequence = ['green'];
 const sequenceIds = ['button-0', 'button-6', 'button-12', 'button-18', 'button-24'];
 let currentStep = 0;
+let currentLevel = 1;
 
 while (sequence.length < sequenceLength) {
     let newColor;
@@ -84,6 +85,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function checkPlayerSequence() {
         if (playerSequence.length === sequenceIds.length) {
             alert('Congratulations! You completed the sequence! Leveling up...');
+            currentLevel++;
+            document.getElementById('count').value = currentLevel;
             resetGame();
         }
     }
@@ -119,6 +122,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         playerSequence = [];
         showAgainBtn.disabled = true;
         startGameBtn.disabled = false;
+        currentLevel = 1;
+        document.getElementById('count').value = "--";
     }
 
     const resetBtn = document.createElement('button');
@@ -127,6 +132,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.querySelector('main').appendChild(resetBtn);
 
     startGameBtn.addEventListener('click', async () => {
+        document.getElementById('count').value = currentLevel;
         await playSequence();
         playerTurn(); 
         startGameBtn.disabled = true; 
