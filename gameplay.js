@@ -87,7 +87,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             alert('Congratulations! You completed the sequence! Leveling up...');
             currentLevel++;
             document.getElementById('count').value = currentLevel;
-            resetGame();
+            resetGame(true);
         }
     }
 
@@ -121,9 +121,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         gameActive = false;
         playerSequence = [];
         showAgainBtn.disabled = true;
+        startGameBtn.textContent = successfulCompletion ? 'Reset Game' : 'Start Game'; 
         startGameBtn.disabled = false;
-        currentLevel = 1;
-        document.getElementById('count').value = "--";
+
+        if (!successfulCompletion) {
+            currentLevel = 1;
+            document.getElementById('count').value = "--";
+        }
+    
     }
 
     const resetBtn = document.createElement('button');
@@ -135,6 +140,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('count').value = currentLevel;
         await playSequence();
         playerTurn(); 
+        startGameBtn.textContent = 'Reset Game';
         startGameBtn.disabled = true; 
         showAgainBtn.disabled = false;
     });
