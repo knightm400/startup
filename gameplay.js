@@ -69,9 +69,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     let hasSequenceBeenShown = false;
 
-    startGameBtn.addEventListener('click', () => {
-        playSequence();
-        hasSequenceBeenShown = true;
+    startGameBtn.addEventListener('click', async () => {
+        document.getElementById('count').value = currentLevel;
+        await playSequence();
+        playerTurn();
+        startGameBtn.textContent = currentLevel > 1 ? 'Reset Game' : 'Start Game';
+        startGameBtn.disabled = true;
         showAgainBtn.disabled = false;
     });
 
@@ -100,6 +103,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             alert('Congratulations! You completed the sequence! Leveling up...');
             currentLevel++;
             document.getElementById('count').value = currentLevel;
+            startGameBtn.textContent = 'Reset Game';
             resetGame(true);
         }
     }
@@ -145,12 +149,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         playerSequence = [];
         showAgainBtn.disabled = true;
         startGameBtn.disabled = false;
-        startGameBtn.textContent = 'Start Game';
+
+        startGameBtn.textContent = successfulCompletion && currentLevel > 1 ? 'Reset Game' : 'Start Game';
         hasSequenceBeenShown = false;
 
         if (!successfulCompletion) {
-        currentLevel = 1;
-        document.getElementById('count').value = "--";
+            currentLevel = 1;
+            document.getElementById('count').value = "--";
         }
 
         const existingMessage = document.getElementById("gameOverMessage");
@@ -167,7 +172,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('count').value = currentLevel;
         await playSequence();
         playerTurn(); 
-        startGameBtn.textContent = 'Reset Game';
+        if (currentLevel > 1) {
+            startGameBtn.textContent = 'Reset Game';
+        }
         startGameBtn.disabled = true; 
         showAgainBtn.disabled = false;
     });
