@@ -36,10 +36,12 @@ async function flashAllRed() {
     buttons.forEach(button => {
         button.style.backgroundColor = 'red';
     });
+
     await new Promise(resolve => setTimeout(resolve, 1000));
     buttons.forEach(button => {
         button.style.backgroundColor = '';
     });
+
 }
 
 async function playSequence() {
@@ -109,6 +111,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         if (sequenceIds[currentStep] !== buttonId) {
             await flashAllRed();
+            alert("GAME OVER. You selected the wrong square.")
             resetGame(false);
             return;
         }
@@ -136,21 +139,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    function resetGame() {
+    function resetGame(successfulCompletion) {
         gameActive = false;
         currentStep = 0;
         playerSequence = [];
         showAgainBtn.disabled = true;
-        startGameBtn.textContent = successfulCompletion ? 'Reset Game' : 'Start Game'; 
         startGameBtn.disabled = false;
+        startGameBtn.textContent = 'Start Game';
+        hasSequenceBeenShown = false;
 
         if (!successfulCompletion) {
-            currentLevel = 1;
-            document.getElementById('count').value = "--";
+        currentLevel = 1;
+        document.getElementById('count').value = "--";
         }
-    
-    }
 
+        const existingMessage = document.getElementById("gameOverMessage");
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+}
     const resetBtn = document.createElement('button');
     resetBtn.textContent = 'Reset Game';
     resetBtn.addEventListener('click', resetGame);
