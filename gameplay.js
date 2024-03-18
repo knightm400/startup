@@ -31,6 +31,17 @@ function flashButton(buttonId, color, duration = 1000) {
     });
 }
 
+async function flashAllRed() {
+    const buttons = document.querySelectorAll('td button');
+    buttons.forEach(button => {
+        button.style.backgroundColor = 'red';
+    });
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    buttons.forEach(button => {
+        button.style.backgroundColor = '';
+    });
+}
+
 async function playSequence() {
     await flashButton(sequenceIds[0], neonGreen, 600);
     await new Promise(resolve => setTimeout(resolve, 400));
@@ -83,7 +94,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function checkPlayerSequence() {
-        if (playerSequence.length === sequenceIds.length) {
+        if (currentStep == sequenceLength) {
             alert('Congratulations! You completed the sequence! Leveling up...');
             currentLevel++;
             document.getElementById('count').value = currentLevel;
@@ -92,24 +103,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     async function flashPlayerSelection(buttonId) {
+        
         const index = sequenceIds.indexOf(buttonId);
-        if (index === -1 || !gameActive) return; 
+        if (!gameActive || !document.querySelector(`#${buttonId}`)) return;
 
-        let flashColor;
-        if (index === 0) {
-            flashColor = neonGreen;
-        } else if (index === sequenceIds.length - 1) {
-            flashColor = 'red';
-        } else {
-            const colorKey = sequence[index];
-            flashColor = pastelColors[colorKey];
+        if (sequenceIds[currentStep] !== buttonId) {
+            await flashAllRed();
+            resetGame(false);
+            return;
         }
 
-        await flashButton(buttonId, flashColor);
+        let flashColor;
+        if (currentStep === 0) {
+            flashColor = neonGreen;
+        } else if (currentStep === sequenceLength - 1) {
+            flashColor = 'red'; 
+        } else {
+            flashColor = pastelColors[sequence[currentStep]]; 
+        }
 
-        playerSequence.push(buttonId);
+
+        flashButton(buttonId, flashColor, 600);
+
+        currentStep++;
         checkPlayerSequence();
     }
+
 
     document.querySelectorAll('td button').forEach(button => {
         button.addEventListener('click', () => {
@@ -119,6 +138,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function resetGame() {
         gameActive = false;
+        currentStep = 0;
         playerSequence = [];
         showAgainBtn.disabled = true;
         startGameBtn.textContent = successfulCompletion ? 'Reset Game' : 'Start Game'; 
