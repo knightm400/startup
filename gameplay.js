@@ -1,23 +1,67 @@
-window.addEventListener('DOMContentLoaded', (event) => {
-    const playerName = localStorage.getItem('playerName') || 'Mystery Player';
-    document.querySelector('.player-name').textContent = playerName;
-});
-
-const sequenceLength = 5;
 const neonGreen = '#39FF14';
-const pastelColors = {'pink': '#da74dcff','orange': '#f09c4aff','yellow': '#f7e460ff','blue': '#60b8f7ff','purple': '#ae60f7ff'};
+const pastelColors = {'pink': '#ee4dbbff','orange': '#f09c4aff','yellow': '#f7e460ff','blue': '#60b8f7ff','purple': '#9a4deeff'};
 const colors = Object.keys(pastelColors);
-const sequence = ['green'];
-const sequenceIds = ['button-0', 'button-6', 'button-12', 'button-18', 'button-24'];
-let currentStep = 0;
+let colorSequence = [];
+let sequenceIds = [];
+let playerIndex = 0;
 let currentLevel = 1;
 
-while (sequence.length < sequenceLength) {
-    let newColor;
-    do {
-        newColor = colors[Math.floor(Math.random() * colors.length)];
-    } while (sequence.includes(newColor) || newColor === sequence[sequence.length - 1]);
-    sequence.push(newColor);
+// adds new randomized colors to sequence
+function generateColorsForLevel(level) {
+    colorSequence = [neonGreen];
+    while (colorSequence.length < level + 3) {
+        let newColor;
+        do {
+            newColor = colors[Math.floor(Math.random() * colors.length)];
+        } while (colorSequence.includes(newColor) || newColor === colorSequence[colorSequence.length - 1] || newColor === 'red');
+        colorSequence.push(newColor)
+    }
+    colorSequence.push('red');
+
+    return colorSequence;
+}
+
+function generateSequenceForLevel(level) {
+    sequenceIds = [];
+    // Level 1 sequence generated
+    if (level === 1) {
+        sequenceIds = ['button-0', 'button-6', 'button-12', 'button-18', 'button-24'];
+    } else {
+        let path = [{ row: 0, col: 0 }];
+        const directions = [
+            {row: 1, col: 0}, {row: 0, col: 1},  
+            {row: 1, col: 1},                    
+            {row: -1, col: 1},                  
+            {row: 1, col: -1}                   
+        ];
+
+        while (path.length < level + 4) {
+            let lastCell = path[path.length - 1];
+            let potentialCells = [];
+
+            directions.forEach(direction => {
+                const newRow = lastCell.row + direction.row;
+                const newCol = lastCell.col + direction.col;
+
+                if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 &&
+                    !path.some(cell => cell.row === newRow && cell.col === newCol)) {
+                    potentialCells.push({ row: newRow, col: newCol });
+                }
+            });
+
+            if (potentialCells.length > 0) {
+                const nextCell = potentialCells[Math.floor(Math.random() * potentialCells.length)];
+                path.push(nextCell);
+            } else {
+                break; 
+            }
+        }
+
+        // Convert sequence of cell positions to button IDs.
+        sequenceIds = path.map(cell => `button-${cell.row * 5 + cell.col}`);
+    }
+
+    return sequenceIds;
 }
 
 function flashButton(buttonId, color, duration = 1000) {
@@ -33,29 +77,20 @@ function flashButton(buttonId, color, duration = 1000) {
 
 async function flashAllRed() {
     const buttons = document.querySelectorAll('td button');
-    buttons.forEach(button => {
-        button.style.backgroundColor = 'red';
-    });
-
+    buttons.forEach(button => button.style.backgroundColor = 'red');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    buttons.forEach(button => {
-        button.style.backgroundColor = '';
-    });
-
+    buttons.forEach(button => button.style.backgroundColor = '');
 }
 
 async function playSequence() {
-    await flashButton(sequenceIds[0], neonGreen, 600);
-    await new Promise(resolve => setTimeout(resolve, 400));
-    for (let i = 1; i < sequenceIds.length - 1; i++) {
-        const colorKey = sequence[i % sequence.length];
-        const pastelColor = pastelColors[colorKey];
-        await flashButton(sequenceIds[i], pastelColor, 600);
+    sequenceIds = generateSequenceForLevel(currentLevel);
+    colorSequence = generateColorsForLevel(currentLevel);
+    for (let i = 0; i < sequenceIds.length; i++) {
+        const color = colorSequence[i];
+        const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
+        await flashButton(sequenceIds[i], displayColor, 600);
         await new Promise(resolve => setTimeout(resolve, 400));
     }
-
-    await flashButton(sequenceIds[sequenceIds.length - 1], 'red', 600);
-    await new Promise(resolve => setTimeout(resolve, 400));
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -66,16 +101,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const startGameBtn = document.querySelector('.game-buttons button:nth-child(1)');
 
     showAgainBtn.disabled = true;
-
     let hasSequenceBeenShown = false;
+    let gameActive = false;
+    let playerSequence = [];
 
-    startGameBtn.addEventListener('click', async () => {
+    startGameBtn.addEventListener('click', () => {
         document.getElementById('count').value = currentLevel;
-        await playSequence();
-        playerTurn();
-        startGameBtn.textContent = currentLevel > 1 ? 'Reset Game' : 'Start Game';
-        startGameBtn.disabled = true;
+        playSequence();
+        hasSequenceBeenShown = true;
         showAgainBtn.disabled = false;
+        gameActive = true;
     });
 
     showAgainBtn.addEventListener('click', () => {
@@ -85,103 +120,53 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    document.querySelectorAll('td button').forEach((button, index) => {
-        button.id = `button-${index}`;
-    });
-
-
-    let playerSequence = [];
-    let gameActive = false;
-
-    function playerTurn() {
-        gameActive = true; 
-        playerSequence = []; 
-    }
-
-    function checkPlayerSequence() {
-        if (currentStep == sequenceLength) {
-            alert('Congratulations! You completed the sequence! Leveling up...');
-            currentLevel++;
-            document.getElementById('count').value = currentLevel;
-            startGameBtn.textContent = 'Reset Game';
-            resetGame(true);
-        }
-    }
-
-    async function flashPlayerSelection(buttonId) {
-        
-        const index = sequenceIds.indexOf(buttonId);
-        if (!gameActive || !document.querySelector(`#${buttonId}`)) return;
-
-        if (sequenceIds[currentStep] !== buttonId) {
-            await flashAllRed();
-            alert("GAME OVER. You selected the wrong square.")
-            resetGame(false);
-            return;
-        }
-
-        let flashColor;
-        if (currentStep === 0) {
-            flashColor = neonGreen;
-        } else if (currentStep === sequenceLength - 1) {
-            flashColor = 'red'; 
-        } else {
-            flashColor = pastelColors[sequence[currentStep]]; 
-        }
-
-
-        flashButton(buttonId, flashColor, 600);
-
-        currentStep++;
-        checkPlayerSequence();
-    }
-
-
     document.querySelectorAll('td button').forEach(button => {
         button.addEventListener('click', () => {
             flashPlayerSelection(button.id);
-        });
-    });
+        })
+    })
 
-    function resetGame(successfulCompletion) {
+    function resetGame() {
         gameActive = false;
-        currentStep = 0;
-        playerSequence = [];
+        playerIndex = 0;
+        playerSequence =[];
+        showAgainBtn.diabled = true;
+        startGameBtn.diabled = false;
+    }
+
+    async function flashPlayerSelection(buttonId) {
         showAgainBtn.disabled = true;
-        startGameBtn.disabled = false;
+        if (!gameActive) return;
 
-        startGameBtn.textContent = successfulCompletion && currentLevel > 1 ? 'Reset Game' : 'Start Game';
-        hasSequenceBeenShown = false;
-
-        if (!successfulCompletion) {
-            currentLevel = 1;
-            document.getElementById('count').value = "--";
+        const playerIndex = playerSequence.length;
+        let flashColor;
+        
+        if (sequenceIds[playerIndex] !== buttonId) {
+            await flashAllRed();
+            alert('GAME OVER. You selected the wrong square. Press OK to start over.');
+            resetGame();
+            return;
         }
 
-        const existingMessage = document.getElementById("gameOverMessage");
-        if (existingMessage) {
-            existingMessage.remove();
+        if (playerIndex === 0) {
+            flashColor = neonGreen;
+        } else if (playerIndex === sequenceIds.length - 1){
+            flashColor = 'red';
+        } else {
+            flashColor = pastelColors[colorSequence[playerIndex]];
         }
-}
-    const resetBtn = document.createElement('button');
-    resetBtn.textContent = 'Reset Game';
-    resetBtn.addEventListener('click', resetGame);
-    document.querySelector('main').appendChild(resetBtn);
 
-    startGameBtn.addEventListener('click', async () => {
-        document.getElementById('count').value = currentLevel;
-        await playSequence();
-        playerTurn(); 
-        if (currentLevel > 1) {
-            startGameBtn.textContent = 'Reset Game';
+        flashButton(buttonId, flashColor, 600);
+        playerSequence.push(buttonId);
+
+        if (playerSequence.length === sequenceIds.length) {
+            alert('Well done! You completed the sequence! Levelling up...');
+            currentLevel++;
+            document.getElementById('count').value = currentLevel;
+            playSequence();
         }
-        startGameBtn.disabled = true; 
-        showAgainBtn.disabled = false;
-    });
 
-    showAgainBtn.addEventListener('click', async () => {
-        await playSequence();
-        playerTurn();
-    });
+    }
+})
 
-});
+
