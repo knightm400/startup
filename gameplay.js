@@ -3,7 +3,6 @@ const pastelColors = {'pink': '#ee4dbbff','orange': '#f09c4aff','yellow': '#f7e4
 const colors = Object.keys(pastelColors);
 let colorSequence = [];
 let sequenceIds = [];
-let playerIndex = 0;
 let currentLevel = 1;
 
 // adds new randomized colors to sequence
@@ -93,6 +92,8 @@ async function playSequence() {
     }
 }
 
+
+
 window.addEventListener('DOMContentLoaded', (event) => {
     const playerName = localStorage.getItem('playerName') || 'Mystery Player';
     document.querySelector('.player-name').textContent = playerName;
@@ -101,19 +102,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const startGameBtn = document.querySelector('.game-buttons button:nth-child(1)');
 
     showAgainBtn.disabled = true;
+    startGameBtn.disabled = false;
     let hasSequenceBeenShown = false;
     let gameActive = false;
     let playerSequence = [];
 
-    startGameBtn.addEventListener('click', () => {
-        document.getElementById('count').value = currentLevel;
-        playSequence();
+    function playerTurn() {
         hasSequenceBeenShown = true;
-        showAgainBtn.disabled = false;
         gameActive = true;
+        playerSequence =[];
+    }
+    
+    startGameBtn.addEventListener('click', async () => {
+        if (startGameBtn.textContent = 'Start Game') {
+            document.getElementById('count').value = currentLevel;
+            await playSequence();
+            playerTurn();
+            showAgainBtn.disabled = false;
+        } else if (startGameBtn.textContent = 'Reset Game') {
+            resetGame(!passedLevel);
+        }
     });
 
-    showAgainBtn.addEventListener('click', () => {
+    showAgainBtn.addEventListener('click', async () => {
         if (hasSequenceBeenShown) {
             playSequence();
             showAgainBtn.disabled = true;
@@ -122,21 +133,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     document.querySelectorAll('td button').forEach(button => {
         button.addEventListener('click', () => {
-            flashPlayerSelection(button.id);
+            if (hasSequenceBeenShown) {
+                flashPlayerSelection(button.id);
+            }
         })
-    })
+    });
 
-    function resetGame() {
-        gameActive = false;
-        playerIndex = 0;
+    function resetGame(passedLevel) {
         playerSequence =[];
-        showAgainBtn.diabled = true;
-        startGameBtn.diabled = false;
+        showAgainBtn.disabled = true;
+        gameActive = false;
+
+        if (!passedLevel) {
+            startGameBtn.disabled = false;
+            currentLevel = 1;
+            document.getElementById('count').value = "--";
+        } else {
+            startGameBtn.textContent = 'Reset Game';
+        }
     }
 
     async function flashPlayerSelection(buttonId) {
         showAgainBtn.disabled = true;
-        if (!gameActive) return;
 
         const playerIndex = playerSequence.length;
         let flashColor;
@@ -144,7 +162,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (sequenceIds[playerIndex] !== buttonId) {
             await flashAllRed();
             alert('GAME OVER. You selected the wrong square. Press OK to start over.');
-            resetGame();
+            resetGame(false);
             return;
         }
 
@@ -160,13 +178,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         playerSequence.push(buttonId);
 
         if (playerSequence.length === sequenceIds.length) {
-            alert('Well done! You completed the sequence! Levelling up...');
+            alert('Well done! You completed the sequence! Leveling up...');
             currentLevel++;
             document.getElementById('count').value = currentLevel;
-            playSequence();
+            resetGame(true);
+            await playSequence();
         }
 
     }
+
 })
 
 
