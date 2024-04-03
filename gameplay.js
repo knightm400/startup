@@ -3,6 +3,8 @@ const pastelColors = {'pink': '#ee4dbbff','orange': '#f09c4aff','yellow': '#f7e4
 const colors = Object.keys(pastelColors);
 let colorSequence = [];
 let sequenceIds = [];
+let storedSequenceIds = [];
+let storedColorSequence = [];
 let currentLevel = 1;
 
 // adds new randomized colors to sequence
@@ -81,14 +83,25 @@ async function flashAllRed() {
     buttons.forEach(button => button.style.backgroundColor = '');
 }
 
-async function playSequence() {
-    sequenceIds = generateSequenceForLevel(currentLevel);
-    colorSequence = generateColorsForLevel(currentLevel);
-    for (let i = 0; i < sequenceIds.length; i++) {
-        const color = colorSequence[i];
-        const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
-        await flashButton(sequenceIds[i], displayColor, 600);
-        await new Promise(resolve => setTimeout(resolve, 400));
+async function playSequence(replaySequence) {
+    if (!replaySequence) {
+        sequenceIds = generateSequenceForLevel(currentLevel);
+        colorSequence = generateColorsForLevel(currentLevel);
+        for (let i = 0; i < sequenceIds.length; i++) {
+            const color = colorSequence[i];
+            const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
+            await flashButton(sequenceIds[i], displayColor, 600);
+            await new Promise(resolve => setTimeout(resolve, 400));
+        }
+        storedSequenceIds = sequenceIds;
+        storedColorSequence = colorSequence;
+    } else {
+        for (let i = 0; i < storedSequenceIds.length; i++) {
+            const color = storedColorSequence[i];
+            const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
+            await flashButton(storedSequenceIds[i], displayColor, 600);
+            await new Promise(resolve => setTimeout(resolve, 400));
+        }
     }
 }
 
@@ -105,19 +118,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
     startGameBtn.disabled = false;
     let hasSequenceBeenShown = false;
     let gameActive = false;
+    let replaySequence = false;
     let playerSequence = [];
 
     function playerTurn() {
-        hasSequenceBeenShown = true;
         gameActive = true;
-        playerSequence =[];
     }
     
     startGameBtn.addEventListener('click', async () => {
         if (startGameBtn.textContent = 'Start Game') {
+            startGameBtn.disabled = true;
             document.getElementById('count').value = currentLevel;
-            await playSequence();
+            await playSequence(replaySequence);
             playerTurn();
+            hasSequenceBeenShown = true;
             showAgainBtn.disabled = false;
         } else if (startGameBtn.textContent = 'Reset Game') {
             resetGame(!passedLevel);
@@ -126,26 +140,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     showAgainBtn.addEventListener('click', async () => {
         if (hasSequenceBeenShown) {
-            playSequence();
+            gameActive = false;
+            replaySequence = true;
+            playSequence(replaySequence);
+            playerTurn();
             showAgainBtn.disabled = true;
         }
     });
 
     document.querySelectorAll('td button').forEach(button => {
         button.addEventListener('click', () => {
-            if (hasSequenceBeenShown) {
+            if (gameActive) {
                 flashPlayerSelection(button.id);
             }
         })
     });
 
     function resetGame(passedLevel) {
-        playerSequence =[];
-        showAgainBtn.disabled = true;
+        playerSequence = [];
+        showAgainBtn.disabled = false;
+        startGameBtn.disabled = false;
+        hasSequenceBeenShown = false;
         gameActive = false;
+        replaySequence = false;
 
         if (!passedLevel) {
-            startGameBtn.disabled = false;
             currentLevel = 1;
             document.getElementById('count').value = "--";
         } else {
@@ -178,11 +197,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         playerSequence.push(buttonId);
 
         if (playerSequence.length === sequenceIds.length) {
+            setTimeout(async () => {
             alert('Well done! You completed the sequence! Leveling up...');
             currentLevel++;
             document.getElementById('count').value = currentLevel;
             resetGame(true);
             await playSequence();
+            playerTurn();
+            }, 800);
+            return;
         }
 
     }
