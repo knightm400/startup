@@ -36,6 +36,9 @@ function generateSequenceForLevel(level) {
             {row: 1, col: -1}                   
         ];
 
+        const exit = { row: 4, col: 4 };
+        const distanceToExit = (cell) => Math.abs(cell.row - exit.row) + Math.abs(cell.col - exit.col);
+
         while (path.length < level + 4) {
             let lastCell = path[path.length - 1];
             let potentialCells = [];
@@ -51,7 +54,8 @@ function generateSequenceForLevel(level) {
             });
 
             if (potentialCells.length > 0) {
-                const nextCell = potentialCells[Math.floor(Math.random() * potentialCells.length)];
+                potentialCells.sort((a, b) => distanceToExit(a) - distanceToExit(b));
+                const nextCell = potentialCells.find(cell => distanceToExit(cell) <= distanceToExit(lastCell)) || potentialCells[0];
                 path.push(nextCell);
             } else {
                 break; 
@@ -83,25 +87,15 @@ async function flashAllRed() {
     buttons.forEach(button => button.style.backgroundColor = '');
 }
 
-async function playSequence(replaySequence) {
-    if (!replaySequence) {
-        sequenceIds = generateSequenceForLevel(currentLevel);
-        colorSequence = generateColorsForLevel(currentLevel);
-        for (let i = 0; i < sequenceIds.length; i++) {
-            const color = colorSequence[i];
-            const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
-            await flashButton(sequenceIds[i], displayColor, 600);
-            await new Promise(resolve => setTimeout(resolve, 400));
-        }
-        storedSequenceIds = sequenceIds;
-        storedColorSequence = colorSequence;
-    } else {
-        for (let i = 0; i < storedSequenceIds.length; i++) {
-            const color = storedColorSequence[i];
-            const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
-            await flashButton(storedSequenceIds[i], displayColor, 600);
-            await new Promise(resolve => setTimeout(resolve, 400));
-        }
+async function playSequence() {
+    console.log(`playSequence called`);
+    sequenceIds = generateSequenceForLevel(currentLevel);
+    colorSequence = generateColorsForLevel(currentLevel);
+    for (let i = 0; i < sequenceIds.length; i++) {
+        const color = colorSequence[i];
+        const displayColor = (color === neonGreen || color === 'red') ? color : pastelColors[color];
+        await flashButton(sequenceIds[i], displayColor, 600);
+        await new Promise(resolve => setTimeout(resolve, 400));
     }
 }
 
@@ -118,7 +112,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     startGameBtn.disabled = false;
     let hasSequenceBeenShown = false;
     let gameActive = false;
-    let replaySequence = false;
     let playerSequence = [];
 
     function playerTurn() {
@@ -129,7 +122,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (startGameBtn.textContent = 'Start Game') {
             startGameBtn.disabled = true;
             document.getElementById('count').value = currentLevel;
-            await playSequence(replaySequence);
+            await playSequence();
             playerTurn();
             hasSequenceBeenShown = true;
             showAgainBtn.disabled = false;
@@ -141,8 +134,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     showAgainBtn.addEventListener('click', async () => {
         if (hasSequenceBeenShown) {
             gameActive = false;
-            replaySequence = true;
-            playSequence(replaySequence);
+            await playSequence();
             playerTurn();
             showAgainBtn.disabled = true;
         }
@@ -158,11 +150,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     function resetGame(passedLevel) {
         playerSequence = [];
-        showAgainBtn.disabled = false;
+        showAgainBtn.disabled = true;
         startGameBtn.disabled = false;
         hasSequenceBeenShown = false;
         gameActive = false;
-        replaySequence = false;
 
         if (!passedLevel) {
             currentLevel = 1;
@@ -197,19 +188,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         playerSequence.push(buttonId);
 
         if (playerSequence.length === sequenceIds.length) {
-            setTimeout(async () => {
+            await new Promise(resolve => setTimeout(resolve, 800));
             alert('Well done! You completed the sequence! Leveling up...');
+            
             currentLevel++;
             document.getElementById('count').value = currentLevel;
-            resetGame(true);
-            await playSequence();
+            resetGame(true); 
+            await playSequence(); 
             playerTurn();
-            }, 800);
-            return;
-        }
-
     }
-
+}
 })
-
 
